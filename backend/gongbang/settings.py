@@ -27,6 +27,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',
 'django-insecure-d4tx0#*x!wfroyn+$ace-_yqd_dd0)4-0^bonejv93=**wjm3w'
 )
 
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-d4tx0#*x!wfroyn+$ace-_yqd_dd0)4-0^bonejv93=**wjm3w'
+ )
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # Django Rest Framework
 
@@ -105,6 +107,8 @@ DATABASES = {
     }
 }
 
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)
 
 
 
@@ -199,5 +203,5 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 django_heroku.settings(locals(), staticfiles=False)
 
 
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)

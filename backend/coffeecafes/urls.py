@@ -3,15 +3,19 @@ from . import views
 
 urlpatterns = [
     # cafe
-    path('coffeecafes/<int:type>', views.coffee_cafes),
-    path('coffeecafe/<int:id>', views.coffee_cafe_detail),
-    path('coffeecafe/<int:id>/review/<int:type>', views.coffee_cafe_detail_review),
-    path('coffeecafe/create', views.coffee_cafe_create),
+    path('coffeecafes/all/<int:type>', views.get_coffeecafes),
+    path('coffeecafes/detail/<int:id>', views.get_coffeecafes_detail),
+    path('coffeecafes/create', views.create_coffeecafe),
 
-    # review
-    path('coffeecafe/review/<int:id>', views.review_get),
-    path('coffeecafe/review', views.review_all_get),
-    path('coffeecafe/review/<int:id>/delete', views.review_delete),
-    path('coffeecafe/review/image/<int:id>', views.review_image_delete)
+    # Review All
+    path('coffeecafes/review', views.get_review_all),
+    # Review Detail
+    path('coffeecafes/review/<int:id>', views.get_review),
+    # Review Create/Update
+    path('coffeecafes/detail/<int:id>/review/<int:type>', views.post_coffeecafe_detail_review),
+    # Review Delete
+    path('coffeecafes/review/<int:id>/delete', views.delete_review),
+    # Review Image Delete
+    path('coffeecafes/review/image/<int:id>', views.delete_review_image)
 
 ]

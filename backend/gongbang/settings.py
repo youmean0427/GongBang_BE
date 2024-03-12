@@ -23,12 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 
-'django-insecure-d4tx0#*x!wfroyn+$ace-_yqd_dd0)4-0^bonejv93=**wjm3w'
-)
-
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-d4tx0#*x!wfroyn+$ace-_yqd_dd0)4-0^bonejv93=**wjm3w'
- )
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-d4tx0#*x!wfroyn+$ace-_yqd_dd0)4-0^bonejv93=**wjm3w')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # Django Rest Framework
 
@@ -43,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 새로 추가한 앱
+    
+    # App
     'accounts',
     
-    # 설치한 라이브러리들
+    # Lib
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -161,7 +157,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
+# Custom User Model
 AUTH_USER_MODEL = 'accounts.User'
 
 
@@ -200,7 +196,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # # Activate Django-Heroku.
-django_heroku.settings(locals(), staticfiles=False)
+# django_heroku.settings(locals(), staticfiles=False)
 
 
 # db_from_env = dj_database_url.config(conn_max_age=500)

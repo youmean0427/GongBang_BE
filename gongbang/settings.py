@@ -158,7 +158,10 @@ AUTH_USER_MODEL = 'accounts.User'
 
 SITE_ID = 1
 
-REST_USE_JWT = True
+REST_AUTH = {
+ 'JWT_AUTH_HTTPONLY': False,
+ 'USE_JWT': True,
+}
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 
@@ -173,13 +176,13 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-    # )
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=100),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 

@@ -19,9 +19,10 @@ class CoffeeCafe(models.Model):
     note = models.FloatField(default=0)
 
 class CoffeeCafeImage(models.Model):
-    cafe = models.ForeignKey(CoffeeCafe, on_delete=models.CASCADE)
+    cafe = models.ForeignKey(CoffeeCafe, on_delete=models.CASCADE, )
     image = models.ImageField(upload_to='images/', null=True, blank = True)
 
+    
 class Review(models.Model):
     cafe = models.ForeignKey(CoffeeCafe, on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)

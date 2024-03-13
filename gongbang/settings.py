@@ -183,15 +183,13 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/", "http://localhost:3000/", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app"]
+
 ALLOWED_HOSTS = ['127.0.0.1', '10.0.2.2', "port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app"]
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app"
-]
-CORS_ORIGINS_WHITELIST = [
-   "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app"
-]
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/", "http://localhost:3000/", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app"]
+CORS_ORIGINS_WHITELIST = ["https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app"]
+SESSION_COOKIE_SECURE=True
+
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # # Activate Django-Heroku.
 # django_heroku.settings(locals(), staticfiles=False)

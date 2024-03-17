@@ -15,5 +15,8 @@ class User(AbstractUser):
     first_name = None
     last_name = None
 
+    def last_name(self):
+        return self.username
+
     def __str__(self):
         return self.email

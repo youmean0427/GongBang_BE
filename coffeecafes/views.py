@@ -7,7 +7,9 @@ from rest_framework.response import Response
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from django.db.models import Max
-
+import collections
+from typing import OrderedDict
+from datetime import datetime
 # Create your views here.
 # @api_view(['GET'])
 # @permission_classes([AllowAny])
@@ -15,12 +17,13 @@ from django.db.models import Max
 # Coffeecafe Get
 def get_coffeecafes(request, type):
     coffeecafes = CoffeeCafe.objects.all()
-    # if type == 1: # Stars
-    #     coffeecafes = CoffeeCafe.objects.order_by('-total_score')[:10]
-    # elif type == 2: # Options
-    #     pass
+    if type == 1: # Score
+        coffeecafes = CoffeeCafe.objects.order_by('-total_score')[:10]
+    elif type == 2: # Options
+        coffeecafes = CoffeeCafe.objects.filter(wifi=1).filter(parking=1).filter(toilet=1)
     # elif type == 3: # New
     #     coffeecafes = CoffeeCafe.objects[-1:-10:-1]
+
     if request.method == 'GET':
         serializer_coffeecafes = CoffeeCafeSerializer(coffeecafes, many = True)
         return JsonResponse(serializer_coffeecafes.data, safe=False)
@@ -28,8 +31,10 @@ def get_coffeecafes(request, type):
 # Coffeecafe Detail
 def get_coffeecafes_detail(request, id):
     coffecafe_detail = CoffeeCafe.objects.get(id = id)
+  
     if request.method == 'GET':
         serializer_coffeecafe_detail = CoffeeCafeSerializer(coffecafe_detail)
+        serializer_coffeecafe_detail.data["review_set"].sort(key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d'), reverse=True)
         return JsonResponse(serializer_coffeecafe_detail.data, safe=False)
 
 # Coffeecafe Create

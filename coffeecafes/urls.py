@@ -16,6 +16,10 @@ urlpatterns = [
     # Review Delete
     path('coffeecafes/review/<int:id>/delete', views.delete_review),
     # Review Image Delete
-    path('coffeecafes/review/image/<int:id>', views.delete_review_image)
+    path('coffeecafes/review/image/<int:id>', views.delete_review_image),
 
+    # Profile
+    path('profile/<int:user_id>', views.profile)
+
+    
 ]

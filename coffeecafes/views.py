@@ -68,7 +68,7 @@ def create_coffeecafe(request):
 def get_review_all(request):
     review = Review.objects.all()
     if request.method == 'GET':
-        serializer_review = ReviewSerializer(review)
+        serializer_review = ReviewSerializer(review,  many = True)
         return JsonResponse(serializer_review.data, safe=False)
 
 # Review Get
@@ -173,7 +173,7 @@ def delete_review(request, id):
         coffee_cafe.save()
 
         review_type = review.type
-        print(review_type)
+        # print(review_type)
         if review_type == 1:
             field_name = "vibe"
         elif review_type == 2:
@@ -262,3 +262,9 @@ def update_cafe_score(coffee_cafe,id, data):
     # setattr(object, attribute_name, value) : Object에 Attribute에 Value를 추가
     setattr(coffee_cafe, field_name, round(new_score, 2))
     coffee_cafe.save()
+
+def profile(request, user_id):
+    review = Review.objects.filter(user=user_id)
+    if request.method == 'GET':
+        serializer_review = ReviewSerializer(review, many = True)
+        return JsonResponse(serializer_review.data, safe=False)

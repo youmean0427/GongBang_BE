@@ -267,4 +267,4 @@ def profile(request, user_id):
     review = Review.objects.filter(user=user_id)
     if request.method == 'GET':
         serializer_review = ReviewSerializer(review, many = True)
-        return JsonResponse(serializer_review.data, safe=False)
+        return JsonResponse(serializer_review.data[::-1], safe=False)

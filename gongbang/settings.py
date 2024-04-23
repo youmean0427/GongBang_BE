@@ -102,7 +102,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD' : os.environ['DATABASE_PASSWORD'],
         'HOST': 'svc.sel5.cloudtype.app',
-        'PORT': '31505'
+        'PORT': '32240'
     }
 }
 

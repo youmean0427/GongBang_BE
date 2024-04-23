@@ -100,7 +100,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'GongBang',
         'USER': 'root',
-        'PASSWORD' : os.environ['DATABASE_PASSWORD'],
+        'PASSWORD' : os.environ.get('DATABASE_PASSWORD'),
         'HOST': 'svc.sel5.cloudtype.app',
         'PORT': '32240'
     }

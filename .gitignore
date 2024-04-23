@@ -22,7 +22,7 @@ __pycache__/
 
 .Python
 venv/
-secret.py
+.env
 db.sqlite3
 .DS_Store
 

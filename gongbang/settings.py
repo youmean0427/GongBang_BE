@@ -16,9 +16,10 @@ from datetime import timedelta
 import django_heroku
 import dj_database_url 
 import pymysql
+pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-pymysql.install_as_MySQLdb()
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -194,7 +195,7 @@ SIMPLE_JWT = {
 
 
 ALLOWED_HOSTS = ['127.0.0.1', '10.0.2.2', "port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "*"]
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/", "http://localhost:3000/", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app"]
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/", "http://localhost:3000/", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app", "http://svc.sel5.cloudtype.app/"]
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app"]
 # CORS_ORIGINS_WHITELIST = ["https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "http://localhost:3000"]
 # SESSION_COOKIE_SECURE=True

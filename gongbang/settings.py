@@ -26,6 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # Django Rest Framework
 
@@ -96,17 +97,21 @@ WSGI_APPLICATION = 'gongbang.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'youmean$default',
+#         'USER': 'youmean',
+#         'PASSWORD' : 'gbdb0427',
+#         'HOST': 'youmean.mysql.pythonanywhere-services.com',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'GongBang',
-        'USER': 'root',
-        'PASSWORD' : os.environ['DATABASE_PASSWORD'],
-        'HOST': 'svc.sel5.cloudtype.app',
-        'PORT': '32240'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
 
@@ -193,10 +198,9 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-
-ALLOWED_HOSTS = ['127.0.0.1', '10.0.2.2', "port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "*"]
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/", "http://localhost:3000/", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app", "http://svc.sel5.cloudtype.app"]
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app", "http://svc.sel5.cloudtype.app"]
+ALLOWED_HOSTS = ['127.0.0.1', '10.0.2.2', "port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "youmean.pythonanywhere.com"]
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/", "http://localhost:3000/", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app", "http://svc.sel5.cloudtype.app", "https://youmean.pythonanywhere.com"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app", "http://svc.sel5.cloudtype.app", "https://youmean.pythonanywhere.com", "http://127.0.0.1:3000"]
 # CORS_ORIGINS_WHITELIST = ["https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "http://localhost:3000"]
 # SESSION_COOKIE_SECURE=True
 

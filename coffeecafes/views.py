@@ -34,7 +34,7 @@ def get_coffeecafes_detail(request, id):
   
     if request.method == 'GET':
         serializer_coffeecafe_detail = CoffeeCafeSerializer(coffecafe_detail)
-        serializer_coffeecafe_detail.data["review_set"].sort(key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d'), reverse=True)
+        serializer_coffeecafe_detail.data["review_set"].sort(key=lambda x: (datetime.strptime(x['date'], '%Y-%m-%d'), x['id']), reverse=True)
         return JsonResponse(serializer_coffeecafe_detail.data, safe=False)
 
 # Coffeecafe Create

@@ -13,10 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
-import django_heroku
-import dj_database_url 
 import pymysql
 pymysql.install_as_MySQLdb()
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,9 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+
+# SECRET_KEY = os.getenv("SECRET_KEY", "TEST")
+SECRET_KEY = os.environ.get('SECRET_KEY', "KEY")
+# SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # Django Rest Framework
+DEBUG = False  # Django Rest Framework
 
 
 # Application definition
@@ -40,10 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # App
     'accounts',
-    
+
     # Lib
     'corsheaders',
     'rest_framework',
@@ -69,7 +73,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
      'whitenoise.middleware.WhiteNoiseMiddleware',
-    
+
 ]
 
 ROOT_URLCONF = 'gongbang.urls'
@@ -90,23 +94,24 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gongbang.wsgi.application'
+
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'GongBang',
-        'USER': 'root',
-        'PASSWORD' : os.environ['DATABASE_PASSWORD'],
-        'HOST': 'svc.sel5.cloudtype.app',
-        'PORT': '32240'
+        'NAME': 'youmean$default',
+        'USER': 'youmean',
+        'PASSWORD' : os.environ.get('DATABASE_PWD', "KEY"),
+        'HOST': 'youmean.mysql.pythonanywhere-services.com',
     }
 }
 
+WSGI_APPLICATION = 'gongbang.wsgi.application'
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
 
@@ -194,9 +199,9 @@ SIMPLE_JWT = {
 }
 
 
-ALLOWED_HOSTS = ['127.0.0.1', '10.0.2.2', "port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "*"]
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/", "http://localhost:3000/", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app", "http://svc.sel5.cloudtype.app"]
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app", "http://svc.sel5.cloudtype.app"]
+ALLOWED_HOSTS = ['127.0.0.1', '10.0.2.2', "port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "youmean.pythonanywhere.com"]
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/", "http://localhost:3000/", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app", "http://svc.sel5.cloudtype.app", "https://youmean.pythonanywhere.com"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "https://gong-bang.vercel.app", "http://svc.sel5.cloudtype.app", "https://youmean.pythonanywhere.com", "http://127.0.0.1:3000"]
 # CORS_ORIGINS_WHITELIST = ["https://port-0-gongbang-be-dc9c2mltoikgzj.sel5.cloudtype.app", "http://localhost:3000"]
 # SESSION_COOKIE_SECURE=True
 
@@ -207,3 +212,5 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
+
+

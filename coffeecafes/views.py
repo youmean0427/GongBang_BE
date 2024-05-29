@@ -31,10 +31,10 @@ def get_coffeecafes(request, type):
 # Coffeecafe Detail
 def get_coffeecafes_detail(request, id):
     coffecafe_detail = CoffeeCafe.objects.get(id = id)
-  
+
     if request.method == 'GET':
         serializer_coffeecafe_detail = CoffeeCafeSerializer(coffecafe_detail)
-        serializer_coffeecafe_detail.data["review_set"].sort(key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d'), reverse=True)
+        serializer_coffeecafe_detail.data["review_set"].sort(key=lambda x: (datetime.strptime(x['date'], '%Y-%m-%d'), x['id']), reverse=True)
         return JsonResponse(serializer_coffeecafe_detail.data, safe=False)
 
 # Coffeecafe Create
@@ -49,11 +49,11 @@ def create_coffeecafe(request):
             # data['id'] = 1
         serializer_coffeecafe = CoffeeCafeSerializer(data=data)
         images = request.FILES.getlist('image')
-        
+
         if serializer_coffeecafe.is_valid():
             coffeecafe = serializer_coffeecafe.save()
-        
-            for i, image in enumerate(images): 
+
+            for i, image in enumerate(images):
                 # cafe : id -> 필수
                 coffeecafe_images = {'cafe': coffeecafe.id, 'image' : image}
                 serializer_coffeecafe_image = CoffeeCafeImageSerializer(data = coffeecafe_images)
@@ -88,15 +88,15 @@ def post_coffeecafe_detail_review(request, id, type):
 
         # if review_cnt == None:
             # review_cnt = 0
-        
-        data = request.POST.copy() 
+
+        data = request.POST.copy()
         data['cafe'] = id
         # data['score'] = float(data['score'])
         # data['type'] = int(data['type'])
         # data['user'] = int(data['user'])
-  
-        if type == 0:  
-            
+
+        if type == 0:
+
             # data['id'] = review_cnt + 1
 
             # total_score Algoritm
@@ -107,9 +107,9 @@ def post_coffeecafe_detail_review(request, id, type):
             # 1. total_score = 기존의 total_score * 리뷰의 길이 + 입력 받은 점수
             total_score = float(coffee_cafe.total_score) * len(review_set) + float(data['score'])
             # 2. total_score = 1에서 계산한 total_score / 리뷰의 길이  + 1
-            coffee_cafe.total_score = round(total_score / (len(review_set)+1), 2) 
+            coffee_cafe.total_score = round(total_score / (len(review_set)+1), 2)
             coffee_cafe.save()
-            
+
             update_cafe_score(coffee_cafe, id, data)
 
             # if data['type'] == "1":
@@ -133,12 +133,12 @@ def post_coffeecafe_detail_review(request, id, type):
             #     coffee_cafe.plug = round(plug_score / (len(plug_set)+1), 2)
             #     coffee_cafe.save()
             #
-                
+
             serializer_coffeecafe_detail_reivew = ReviewSerializer(data=data)
         else:
             existing_review = Review.objects.filter(id=type).first()
             serializer_coffeecafe_detail_reivew = ReviewSerializer(existing_review, data=data, partial=True)
-        
+
 
         images = request.FILES.getlist('image')
         if serializer_coffeecafe_detail_reivew.is_valid():
@@ -164,9 +164,9 @@ def delete_review(request, id):
         # coffee_cafe : 해당 리뷰의 카페의 정보
         coffee_cafe = CoffeeCafe.objects.get(id=review.cafe_id)
         total_score = float(coffee_cafe.total_score) * (len(review_set)) - float(review.score)
-        
+
         if (len(review_set)-1):
-            coffee_cafe.total_score = round(total_score / (len(review_set)-1), 2) 
+            coffee_cafe.total_score = round(total_score / (len(review_set)-1), 2)
         else:
             coffee_cafe.total_score = 0
 
@@ -227,7 +227,7 @@ def delete_review(request, id):
         #         coffee_cafe.plug = 0
         #     coffee_cafe.save()
         #
-            
+
         review.delete()
     return JsonResponse("Review Deleted", safe=False)
 
@@ -243,7 +243,7 @@ def delete_review_image(request, id):
 # Function
 
 def update_cafe_score(coffee_cafe,id, data):
- 
+
     if data['type'] == "1":
         field_name = 'vibe'
     elif data['type'] == "2":

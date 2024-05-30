@@ -110,34 +110,23 @@ def post_coffeecafe_detail_review(request, id, type):
             coffee_cafe.total_score = round(total_score / (len(review_set)+1), 2)
             coffee_cafe.save()
 
-            update_cafe_score(coffee_cafe, id, data)
-
-            # if data['type'] == "1":
-            #     vibe_set = Review.objects.filter(cafe_id=id, type=1)
-            #     vibe_score = float(coffee_cafe.vibe) * len(vibe_set) + float(data['score'])
-            #     coffee_cafe.vibe = round(vibe_score / (len(vibe_set)+1), 2)
-            #     coffee_cafe.save()
-            # elif data['type'] == "2":
-            #     seat_set = Review.objects.filter(cafe_id=id, type=2)
-            #     seat_score = float(coffee_cafe.seat) * len(seat_set) + float(data['score'])
-            #     coffee_cafe.seat = round(seat_score / (len(seat_set)+1), 2)
-            #     coffee_cafe.save()
-            # elif data['type'] == "3":
-            #     coffee_set = Review.objects.filter(cafe_id=id, type=3)
-            #     coffee_score = float(coffee_cafe.coffee) * len(coffee_set) + float(data['score'])
-            #     coffee_cafe.coffee = round(coffee_score / (len(coffee_set)+1), 2)
-            #     coffee_cafe.save()
-            # elif data['type'] == "4":
-            #     plug_set = Review.objects.filter(cafe_id=id, type=4)
-            #     plug_score = float(coffee_cafe.plug) * len(plug_set) + float(data['score'])
-            #     coffee_cafe.plug = round(plug_score / (len(plug_set)+1), 2)
-            #     coffee_cafe.save()
-            #
+            update_cafe_score(coffee_cafe, id, data, "C", 0)
 
             serializer_coffeecafe_detail_reivew = ReviewSerializer(data=data)
         else:
+            coffee_cafe = CoffeeCafe.objects.get(id=id)
+            review_set = Review.objects.filter(cafe_id=id)
+            print(coffee_cafe.total_score)
+            # 수정 전, Data
             existing_review = Review.objects.filter(id=type).first()
+            
+
+            total_score = float(coffee_cafe.total_score) * len(review_set) - existing_review.score + float(data['score'])
+            coffee_cafe.total_score = round(total_score / (len(review_set)), 2)
+            coffee_cafe.save()
+            update_cafe_score(coffee_cafe, id, data, "U", existing_review.score)
             serializer_coffeecafe_detail_reivew = ReviewSerializer(existing_review, data=data, partial=True)
+
 
 
         images = request.FILES.getlist('image')
@@ -192,41 +181,6 @@ def delete_review(request, id):
             setattr(coffee_cafe, field_name, 0)
         coffee_cafe.save()
 
-        # if review_type == "1":
-        #     vibe_set = Review.objects.filter(cafe_id=review.cafe_id, type=1)
-        #     vibe_score = float(coffee_cafe.vibe) * len(vibe_set) - float(review.score)
-        #     if (len(vibe_set)-1):
-        #         coffee_cafe.vibe = round(vibe_score / (len(vibe_set)-1), 2)
-        #     else:
-        #         coffee_cafe.vibe = 0
-        #     coffee_cafe.save()
-
-        # elif review_type == "2":
-        #     seat_set = Review.objects.filter(cafe_id=review.cafe_id, type=2)
-        #     seat_score = float(coffee_cafe.seat) * len(seat_set) - float(review.score)
-        #     if (len(seat_set)-1):
-        #         coffee_cafe.seat = round(seat_score / (len(seat_set)-1), 2)
-        #     else:
-        #         coffee_cafe.seat = 0
-        #     coffee_cafe.save()
-
-        # elif review_type == "3":
-        #     coffee_set = Review.objects.filter(cafe_id=review.cafe_id, type=3)
-        #     coffee_score = float(coffee_cafe.coffee) * len(coffee_set) - float(review.score)
-        #     if (len(coffee_set)-1):
-        #         coffee_cafe.coffee = round(coffee_score / (len(coffee_set)-1), 2)
-        #     else:
-        #         coffee_cafe.coffee = 0
-        #     coffee_cafe.save()
-        # elif review_type == "4":
-        #     plug_set = Review.objects.filter(cafe_id=review.cafe_id, type=4)
-        #     plug_score = float(coffee_cafe.plug) * len(plug_set) - float(review.score)
-        #     if (len(plug_set)-1):
-        #         coffee_cafe.plug = round(plug_score / (len(plug_set)-1), 2)
-        #     else:
-        #         coffee_cafe.plug = 0
-        #     coffee_cafe.save()
-        #
 
         review.delete()
     return JsonResponse("Review Deleted", safe=False)
@@ -242,7 +196,7 @@ def delete_review_image(request, id):
 
 # Function
 
-def update_cafe_score(coffee_cafe,id, data):
+def update_cafe_score(coffee_cafe,id, data, type, before_score):
 
     if data['type'] == "1":
         field_name = 'vibe'
@@ -258,7 +212,10 @@ def update_cafe_score(coffee_cafe,id, data):
     review_set = Review.objects.filter(cafe_id=id, type=data['type'])
     # getattr(object, attribute_name) : Object의 Attribute를 호출
     score = getattr(coffee_cafe, field_name)
-    new_score = (float(score) * len(review_set) + float(data['score'])) / (len(review_set) + 1)
+    if type == "C":
+        new_score = (float(score) * len(review_set) + float(data['score'])) / (len(review_set) + 1)
+    if type == "U":
+        new_score = (float(score) * len(review_set) - before_score + float(data['score'])) / (len(review_set))
     # setattr(object, attribute_name, value) : Object에 Attribute에 Value를 추가
     setattr(coffee_cafe, field_name, round(new_score, 2))
     coffee_cafe.save()

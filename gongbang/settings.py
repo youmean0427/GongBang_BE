@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', "KEY")
 # SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # Django Rest Framework
+DEBUG = True  # Django Rest Framework
 
 
 # Application definition
@@ -100,16 +100,23 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-
+# DEV
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'youmean$default',
-        'USER': 'youmean',
-        'PASSWORD' : os.environ.get('DATABASE_PWD', "KEY"),
-        'HOST': 'youmean.mysql.pythonanywhere-services.com',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'youmean$default',
+#         'USER': 'youmean',
+#         'PASSWORD' : os.environ.get('DATABASE_PWD', "KEY"),
+#         'HOST': 'youmean.mysql.pythonanywhere-services.com',
+#     }
+# }
 
 WSGI_APPLICATION = 'gongbang.wsgi.application'
 # db_from_env = dj_database_url.config(conn_max_age=500)
@@ -118,20 +125,12 @@ WSGI_APPLICATION = 'gongbang.wsgi.application'
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+# AUTH_PASSWORD_VALIDATORS = [
+#     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
+#     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
+#     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
+#     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
+# ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -146,7 +145,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'k.youmean0427@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -172,6 +176,7 @@ SITE_ID = 1
 REST_AUTH = {
  'JWT_AUTH_HTTPONLY': False,
  'USE_JWT': True,
+
 }
 
 JWT_AUTH_COOKIE = 'my-app-auth'
@@ -185,11 +190,12 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+       'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+       'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
 

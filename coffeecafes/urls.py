@@ -19,7 +19,9 @@ urlpatterns = [
     path('coffeecafes/review/image/<int:id>', views.delete_review_image),
 
     # Profile
-    path('profile/<int:user_id>', views.profile)
+    path('profile/<int:user_id>', views.profile),
 
+    # RecoCafe
+    path('coffeecafes/recommend', views.create_recocafe)
     
 ]

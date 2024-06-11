@@ -35,3 +35,14 @@ class Review(models.Model):
 class ReviewImage(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
+
+
+class RecoCafe(models.Model):
+    title = models.CharField(max_length=50)
+    content = models.TextField(max_length=500)
+    date = models.DateField()
+    name = models.CharField(max_length=10)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    lat = models.FloatField(default=0)
+    lng = models.FloatField(default=0)
+

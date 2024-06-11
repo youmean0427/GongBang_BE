@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CoffeeCafe, Review, ReviewImage, CoffeeCafeImage
+from .models import CoffeeCafe, Review, ReviewImage, CoffeeCafeImage, RecoCafe
 
 
 class ReviewImageSerializer(serializers.ModelSerializer):
@@ -25,3 +25,8 @@ class CoffeeCafeSerializer(serializers.ModelSerializer):
         model = CoffeeCafe
         fields = '__all__'
 
+
+class RecoCafeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecoCafe
+        fields = '__all__'

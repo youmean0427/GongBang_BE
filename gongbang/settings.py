@@ -101,22 +101,22 @@ TEMPLATES = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # DEV
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'youmean$default',
-#         'USER': 'youmean',
-#         'PASSWORD' : os.environ.get('DATABASE_PWD', "KEY"),
-#         'HOST': 'youmean.mysql.pythonanywhere-services.com',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'youmean$default',
+        'USER': 'youmean',
+        'PASSWORD' : os.environ.get('DATABASE_PWD', "KEY"),
+        'HOST': 'youmean.mysql.pythonanywhere-services.com',
+    }
+}
 
 WSGI_APPLICATION = 'gongbang.wsgi.application'
 # db_from_env = dj_database_url.config(conn_max_age=500)
@@ -150,7 +150,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'k.youmean0427@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+EMAIL_HOST_PASSWORD =  os.environ.get('EMAIL_PASSWORD', "KEY")
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

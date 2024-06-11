@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import CoffeeCafe, Review, ReviewImage
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import CoffeeCafeSerializer, ReviewSerializer, ReviewImageSerializer, CoffeeCafeImageSerializer
+from .serializers import CoffeeCafeSerializer, ReviewSerializer, ReviewImageSerializer, CoffeeCafeImageSerializer, RecoCafeSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.http import HttpResponse, JsonResponse
@@ -20,7 +20,7 @@ def get_coffeecafes(request, type):
     if type == 1: # Score
         coffeecafes = CoffeeCafe.objects.order_by('-total_score')[:10]
     elif type == 2: # Options
-        coffeecafes = CoffeeCafe.objects.filter(wifi=1).filter(parking=1).filter(toilet=1)
+        coffeecafes = CoffeeCafe.objects.filter(wifi=1).filter(parking=1).filter(toilet=1)[:10]
     # elif type == 3: # New
     #     coffeecafes = CoffeeCafe.objects[-1:-10:-1]
 
@@ -225,3 +225,17 @@ def profile(request, user_id):
     if request.method == 'GET':
         serializer_review = ReviewSerializer(review, many = True)
         return JsonResponse(serializer_review.data[::-1], safe=False)
+    
+# RecoCafe
+def create_recocafe(request):
+    if request.method == 'POST':
+        data = request.POST.copy()
+        images = request.FILES.getlist('image')
+
+        data['image'] = images[0]
+        serializer_recocafe = RecoCafeSerializer(data=data)
+        
+        if serializer_recocafe.is_valid():
+            serializer_recocafe.save()
+
+    return JsonResponse(serializer_recocafe.data, safe=False)
